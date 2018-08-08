@@ -1,7 +1,32 @@
 import * as actions from './actions';
+import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
+
+const middleware = [thunk];
+const mockStore = configureMockStore(middleware);
+const mock = new MockAdapter(axios);
+
+describe('async actions', () => {
+
+    afterEach(() => {
+        mock.reset();
+        mock.restore();
+    });
+
+
+    it('should create REQUEST_SONG when called', () => {
+
+    });
+
+    it('should create RECEIVE_SONG when fetching the song has been done', () => {
+
+    });
+});
+
 
 describe('actions', () => {
-
 
     it('should create an action called REQUEST SONG', () => {
         const expectedAction = {
