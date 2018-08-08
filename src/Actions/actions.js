@@ -1,13 +1,23 @@
+import axios from 'axios';
+
+
 export const retrieveNewSong = () => dispatch => {
     console.log("GETTING SONG");
 
     dispatch(requestSong());
 
-    //TODO: request from server with axios
+    axios.get('http://localhost:5000/song')
+        .then((response) => {
+                console.log(response.data);
+                dispatch(receiveSong(response));
+            }
+        )
+        .catch(error => {
+            console.log(error);
+            dispatch(failureSong(error));
+        });
 
-    dispatch(receiveSong());
-
-}
+};
 
 export const requestSong = () => ({
     type: "REQUEST_SONG"
