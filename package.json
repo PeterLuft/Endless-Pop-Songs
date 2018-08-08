@@ -22,7 +22,10 @@
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
     "babel-jest": "^23.4.2",
+    "fetch-mock": "^6.5.2",
+    "install": "^0.12.1",
     "jest": "^23.4.2",
+    "npm": "^6.3.0",
     "redux-mock-store": "^1.5.3"
   }
 }
