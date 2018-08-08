@@ -4,13 +4,10 @@ import Generator from '../Components/Generator';
 import {connect} from "react-redux";
 import {retrieveNewSong} from "../Actions/actions";
 
-class App extends Component {
+//use named export for unconnected component (for testing)
+export class App extends Component {
 
-
-
-
-
-  render() {
+    render() {
     return (
       <div className="App">
           <h1>Song Generator</h1>
