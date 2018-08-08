@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 
 export const retrieveNewSong = () => dispatch => {
@@ -6,11 +5,11 @@ export const retrieveNewSong = () => dispatch => {
 
     dispatch(requestSong());
 
-    axios.get('http://localhost:5000/song')
-        .then((response) => {
-                console.log(response.data);
-                dispatch(receiveSong(response));
-            }
+    return fetch('http://localhost:5000/song')
+        .then((response) => response.json().then( song => {
+                dispatch(receiveSong(song));
+            })
+
         )
         .catch(error => {
             console.log(error);

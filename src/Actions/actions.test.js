@@ -1,24 +1,44 @@
 import * as actions from './actions';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import MockAdapter from 'axios-mock-adapter';
-import axios from 'axios';
+import fetchMock from 'fetch-mock';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
-const mock = new MockAdapter(axios);
+
 
 describe('async actions', () => {
 
     afterEach(() => {
-        mock.reset();
-        mock.restore();
+        fetchMock.reset();
+        fetchMock.restore();
     });
 
 
     it('should create REQUEST_SONG when called', () => {
+        fetchMock.
+            getOnce('http://localhost:5000/song', {name: 'Bob'});
+
+
+        const expectedActions = [
+            {
+                type: "REQUEST_SONG"
+            },
+            {type: "RECEIVE_SONG", payload: {name : 'Bob'}
+            }
+        ];
+
+        const store = mockStore({currentSong: {}})
+
+        return store.dispatch(actions.retrieveNewSong()).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+
 
     });
+
+
+
 
     it('should create RECEIVE_SONG when fetching the song has been done', () => {
 

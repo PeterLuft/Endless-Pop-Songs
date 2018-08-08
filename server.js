@@ -9,7 +9,7 @@ app.use(function(req, res, next) {
 
 app.get('/song', (req, res) => {
     let song = {
-        "name": "bob"
+        name: "bob"
     };
 
     res.send(song);
