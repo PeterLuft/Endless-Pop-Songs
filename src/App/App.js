@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Generator from '../Components/Generator';
+import Player from '../Components/Player';
 import {connect} from "react-redux";
 import {retrieveNewSong} from "../Actions/actions";
 
@@ -12,6 +13,7 @@ export class App extends Component {
       <div className="App">
           <h1>Song Generator</h1>
           <Generator generateClicked={() => this.props.generateSong()}/>
+          <Player/>
       </div>
     );
   }
