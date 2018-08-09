@@ -1,21 +1,15 @@
-
-
 export const retrieveNewSong = () => dispatch => {
-    console.log("GETTING SONG");
-
     dispatch(requestSong());
 
     return fetch('http://localhost:5000/song')
-        .then((response) => response.json().then( song => {
+        .then((response) => response.json().then(song => {
                 dispatch(receiveSong(song));
             })
-
         )
         .catch(error => {
             console.log(error);
             dispatch(failureSong(error));
         });
-
 };
 
 export const requestSong = () => ({

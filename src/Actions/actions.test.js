@@ -14,35 +14,26 @@ describe('async actions', () => {
         fetchMock.restore();
     });
 
-
     it('should create REQUEST_SONG when called', () => {
-        fetchMock.
-            getOnce('http://localhost:5000/song', {name: 'Bob'});
+        fetchMock.getOnce('http://localhost:5000/song', {name: 'Bob'});
 
 
         const expectedActions = [
             {
                 type: "REQUEST_SONG"
             },
-            {type: "RECEIVE_SONG", payload: {name : 'Bob'}
+            {
+                type: "RECEIVE_SONG", payload: {name: 'Bob'}
             }
         ];
 
-        const store = mockStore({currentSong: {}})
+        const store = mockStore({currentSong: {}});
 
         return store.dispatch(actions.retrieveNewSong()).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
-
-
     });
 
-
-
-
-    it('should create RECEIVE_SONG when fetching the song has been done', () => {
-
-    });
 });
 
 
