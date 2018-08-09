@@ -4,27 +4,27 @@ const app = express();
 const keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
-const interval = {
-    1: 0,
-    2: 2,
-    3: 4,
-    4: 5,
-    5: 7,
-    6: 9,
-    7: 11
-};
-
-
 generateSong = () => {
     let key = keys[randInteger(keys.length - 1)];
     let scale = shiftKey(notes.slice(), notes.indexOf(key));
 
-    console.log(scale);
+    let progression = [];
+
+    for(let i = 0; i < randInteger(4, 2); i++){
+        let a = [];
+        generateChords().map(interval => {
+            a.push(scale[interval - 1]);
+        });
+
+        progression.push(a);
+    }
+
+    console.log(progression);
 
     let song = {
         name: "bob",
         key: key,
-        scale: scale
+        progression: progression
     };
 
     return song;
@@ -36,6 +36,37 @@ randInteger = (max, min = 0) => {
 
 randDecision = (seed) => {
     return randInteger(10) <= seed;
+};
+
+generateChords = () => {
+    prog = [];
+    let rn, n;
+
+    for(let i = 0; i < 4; i++){
+        //chord 1:
+        rn = randInteger(100);
+
+        if(rn <= 30){
+            n = 1;
+        }
+        else if(rn <= 57 && rn > 30){
+            n = 4;
+        }
+        else if(rn <= 82 && rn > 57){
+           n = 6;
+        }
+        else if(rn <= 95 && rn > 82){
+            n = 5
+        }
+        else{
+            n = 2;
+        }
+
+        prog.push(n);
+    }
+
+    return prog;
+
 };
 
 shiftKey = (scale, toShift) => {
@@ -56,6 +87,11 @@ shiftKey = (scale, toShift) => {
 
     return scale;
 };
+
+getProgression = (chords) => {
+
+}
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
