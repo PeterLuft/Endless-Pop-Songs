@@ -90,7 +90,7 @@ shiftKey = (scale, toShift) => {
 
 getProgression = (chords) => {
 
-}
+};
 
 
 app.use(function(req, res, next) {
@@ -102,7 +102,17 @@ app.use(function(req, res, next) {
 app.get('/song', (req, res) => {
 
     let newSong = generateSong();
-    res.send(newSong);
+
+    let temp = {
+        tempo: 170,
+        chords: [
+            ["C4", "E4", "G4"],
+            ["F4", "A4", "C5"],
+            ["A4", "C4", "A5"],
+            ["F4", "A4", "C5"]
+        ],
+    };
+    res.send(temp);
 });
 
 app.listen(5000, () => console.log("Listening on port 5000"));
