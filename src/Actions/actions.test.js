@@ -1,4 +1,4 @@
-import * as actions from './actions';
+import * as songActions from './songs';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import fetchMock from 'fetch-mock';
@@ -29,7 +29,7 @@ describe('async actions', () => {
 
         const store = mockStore({currentSong: {}});
 
-        return store.dispatch(actions.retrieveNewSong()).then(() => {
+        return store.dispatch(songActions.retrieveNewSong()).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
@@ -43,7 +43,7 @@ describe('actions', () => {
         const expectedAction = {
             type: "REQUEST_SONG"
         };
-        expect(actions.requestSong()).toEqual(expectedAction);
+        expect(songActions.requestSong()).toEqual(expectedAction);
     });
 
 
@@ -57,7 +57,7 @@ describe('actions', () => {
             payload: expectedSong
         };
 
-        expect(actions.receiveSong(expectedSong)).toEqual(expectedAction);
+        expect(songActions.receiveSong(expectedSong)).toEqual(expectedAction);
     });
 
     it('should create an action called FAILURE SONG', () => {
@@ -68,7 +68,7 @@ describe('actions', () => {
             message: expectedError
         };
 
-        expect(actions.failureSong(expectedError)).toEqual(expectedAction);
+        expect(songActions.failureSong(expectedError)).toEqual(expectedAction);
 
     });
 
