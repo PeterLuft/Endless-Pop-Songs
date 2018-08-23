@@ -1,22 +1,24 @@
 import {combineReducers} from "redux";
+import * as userTypes from '../Constants/userActionTypes';
+import * as songTypes from '../Constants/songActionTypes';
 
 const songs = (state = {
         isFetching: false,
         currentSong: {}
         }, action) => {
             switch(action.type){
-                case "REQUEST_SONG":
+                case songTypes.REQUEST_SONG:
                     return {
                         ...state,
                         isFetching: true
                     };
-                case "RECEIVE_SONG":
+                case songTypes.RECEIVE_SONG:
                     return {
                         ...state,
                         isFetching: false,
                         currentSong: action.payload
                     };
-                case "FAILURE_SONG":
+                case songTypes.FAILURE_SONG:
                     return {
                         ...state,
                         isFetching: false,
@@ -34,29 +36,29 @@ const users = (state = {
     user: null
 }, action) => {
     switch(action.type){
-        case "REQUEST_CREATE_USER":
+        case userTypes.REQUEST_CREATE_USER:
             return {
                 ...state,
                 isFetching: true
             };
-        case "RECEIVE_CREATE_USER":
+        case userTypes.RECEIVE_CREATE_USER:
             return {
                 ...state,
                 isFetching: false,
                 user: action.payload.user
             };
-        case "FAILURE_CREATE_USER":
+        case userTypes.FAILURE_CREATE_USER:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.message
             };
-        case "REQUEST_LOGIN":
+        case userTypes.REQUEST_LOGIN:
             return {
                 ...state,
                 isFetching: true
             };
-        case "RECEIVE_LOGIN":
+        case userTypes.RECEIVE_LOGIN:
             return {
                 ...state,
                 isFetching: false,
@@ -64,19 +66,19 @@ const users = (state = {
                 errorMessage: '',
                 isAuthenticated: true
             };
-        case "FAILURE_LOGIN":
+        case userTypes.FAILURE_LOGIN:
             return {
                 ...state,
                 isFetching: false,
                 errorMessage: action.message,
                 isAuthenticated: false
             };
-        case "REQUEST_LOGOUT":
+        case userTypes.REQUEST_LOGOUT:
             return {
                 ...state,
                 isFetching: true
             };
-        case "RECEIVE_LOGOUT":
+        case userTypes.RECEIVE_LOGOUT:
             return {
                 ...state,
                 isFetching: false,
@@ -84,10 +86,12 @@ const users = (state = {
                 user: null,
                 errorMessage: ''
             };
+        default:
+            return state
 
     }
 };
 
-const Reducer = combineReducers({songs});
+const Reducer = combineReducers({songs, users});
 
 export default Reducer;

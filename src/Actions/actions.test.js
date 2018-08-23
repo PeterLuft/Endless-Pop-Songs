@@ -1,11 +1,13 @@
 import * as songActions from './songs';
+import * as userActions from './user';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import fetchMock from 'fetch-mock';
+import * as userTypes from '../Constants/userActionTypes';
+import * as songTypes from '../Constants/songActionTypes';
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
-
 
 describe('async actions', () => {
 
@@ -14,16 +16,16 @@ describe('async actions', () => {
         fetchMock.restore();
     });
 
-    it('should create REQUEST_SONG when called', () => {
+    it('should request and receive a song', () => {
         fetchMock.getOnce('http://localhost:5000/song', {name: 'Bob'});
 
 
         const expectedActions = [
             {
-                type: "REQUEST_SONG"
+                type: songTypes.REQUEST_SONG
             },
             {
-                type: "RECEIVE_SONG", payload: {name: 'Bob'}
+                type: songTypes.RECEIVE_SONG, payload: {name: 'Bob'}
             }
         ];
 
@@ -34,42 +36,151 @@ describe('async actions', () => {
         });
     });
 
+    it('should request and receive a token upon login', () => {
+        fetchMock.getOnce('http://localhost:3001/auth',
+            {
+                name: 'Kevin Smith',
+                token: '1234'
+            }
+        );
+
+        const mockCreds = {
+            email: 'testemail',
+            password: 'test'
+        }
+        const expectedActions = [
+            {
+                type: userTypes.REQUEST_LOGIN
+            },
+            {
+                type: userTypes.RECEIVE_LOGIN,
+                payload: {
+                    user: {
+                        name: 'Kevin Smith',
+                        token: '1234'
+                    }
+                }
+            }
+        ];
+
+        const store = mockStore({});
+        return store.dispatch(userActions.logUserIn(mockCreds)).then(() => {
+            expect(store.getActions()).toEqual(expectedActions);
+        })
+    });
+
+
 });
 
 
-describe('actions', () => {
+describe('user actions', () => {
 
-    it('should create an action called REQUEST SONG', () => {
+    it('should create a REQUEST_CREATE_USER action', () => {
         const expectedAction = {
-            type: "REQUEST_SONG"
+            type: userTypes.REQUEST_CREATE_USER
+        };
+        expect(userActions.requestCreateUser()).toEqual(expectedAction);
+    });
+
+    it('should create a RECEIVE_CREATE_USER action', () => {
+        const expectedUser = {
+            name: 'Kevin',
+            token: '1234'
+        };
+        const expectedAction = {
+            type: userTypes.RECEIVE_CREATE_USER,
+            payload: {
+                user: expectedUser
+            }
+        };
+        expect(userActions.receiveCreateUser(expectedUser)).toEqual(expectedAction);
+    });
+
+    it('should crate a FAILURE_CREATE_USER action', () => {
+        const expectedError = 'Error';
+        const expectedAction = {
+            type: userTypes.FAILURE_CREATE_USER,
+            message: expectedError
+        };
+        expect(userActions.failureCreateUser(expectedError)).toEqual(expectedAction);
+    });
+
+
+    it('should create a REQUEST_LOGIN action', () => {
+        const expectedAction = {
+            type: userTypes.REQUEST_LOGIN
+        };
+        expect(userActions.requestLogin()).toEqual(expectedAction);
+    });
+
+    it('should create a RECEIVE_LOGIN action', () => {
+        const expectedUser = {
+            name: 'Kevin',
+            token: '1234'
+        };
+        const expectedAction = {
+            type: userTypes.RECEIVE_LOGIN,
+            payload: {
+                user: expectedUser
+            }
+        };
+        expect(userActions.receiveLogin(expectedUser)).toEqual(expectedAction);
+    });
+
+    it('should create a FAILURE_LOGIN action', () => {
+        const expectedError = 'Bad error';
+        const expectedAction = {
+            type: userTypes.FAILURE_LOGIN,
+            message: expectedError
+        };
+        expect(userActions.failureLogin(expectedError)).toEqual(expectedAction);
+    });
+
+    it('should create a REQUEST_LOGOUT action', () => {
+        const expectedAction = {
+            type: userTypes.REQUEST_LOGOUT
+        };
+        expect(userActions.requestLogout()).toEqual(expectedAction);
+    });
+
+    it('should create a RECEIVE_LOGOUT action', () => {
+        const expectedAction = {
+            type: userTypes.RECEIVE_LOGOUT
+        }
+        expect(userActions.receiveLogout()).toEqual(expectedAction);
+    });
+
+});
+
+describe('song actions', () => {
+
+    it('should create a REQUEST_SONG action', () => {
+        const expectedAction = {
+            type: songTypes.REQUEST_SONG
         };
         expect(songActions.requestSong()).toEqual(expectedAction);
     });
 
-
-    it('should create an action called RECEIVE SONG', () => {
+    it('should create a RECEIVE_SONG action', () => {
         const expectedSong = {
             name: "My song",
             length: 238
         };
         const expectedAction = {
-            type: "RECEIVE_SONG",
+            type: songTypes.RECEIVE_SONG,
             payload: expectedSong
         };
 
         expect(songActions.receiveSong(expectedSong)).toEqual(expectedAction);
     });
 
-    it('should create an action called FAILURE SONG', () => {
-
+    it('should create a FAILURE_SONG action', () => {
         const expectedError = "Fatal error, panic";
         const expectedAction = {
-            type: "FAILURE_SONG",
+            type: songTypes.FAILURE_SONG,
             message: expectedError
         };
-
         expect(songActions.failureSong(expectedError)).toEqual(expectedAction);
-
     });
 
 });

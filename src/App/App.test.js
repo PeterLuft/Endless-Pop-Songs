@@ -2,8 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {App} from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+describe('app tests', () => {
+
+    const generateFunction = jest.fn();
+
+    it('renders without crashing', () => {
+
+        const div = document.createElement('div');
+        ReactDOM.render(<App generateSong={() => generateFunction()}/>, div);
+        ReactDOM.unmountComponentAtNode(div);
+    });
+
+
+})
+
+

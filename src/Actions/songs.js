@@ -2,7 +2,7 @@ export const retrieveNewSong = () => dispatch => {
     dispatch(requestSong());
 
     return fetch('http://localhost:5000/song')
-        .then((response) => response.json().then(song => {
+        .then(response => response.json().then(song => {
                 dispatch(receiveSong(song));
             })
         )
