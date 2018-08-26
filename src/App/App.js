@@ -23,7 +23,8 @@ export class App extends Component {
         generateSong: PropTypes.func,
         createAccount: PropTypes.func,
         signUserIn: PropTypes.func,
-        signUserOut: PropTypes.func
+        signUserOut: PropTypes.func,
+        handlePlay: PropTypes.func
     };
 
     componentDidMount() {
@@ -45,7 +46,7 @@ export class App extends Component {
                     <div className="App">
                         <h1>Song Generator</h1>
                         <Signout logoutClicked={() => this.props.signUserOut()}/>
-                        <Timeline songs={this.props.currentSongs}/>
+                        <Timeline songs={this.props.currentSongs} handlePlay={id => this.props.handlePlay(id)}/>
                     </div>
                 );
             }
@@ -96,7 +97,12 @@ const mapDispatchToProps = dispatch => ({
     },
     signUserOut: () => {
         dispatch(logUserOut());
+    },
+    handlePlay: id => {
+        //TODO: implement audio player state in redux
+        console.log(id);
     }
+
 });
 
 

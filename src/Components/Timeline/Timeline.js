@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import Player from './Player'
+import SongItem from './SongItem'
 import PropTypes from 'prop-types';
 
 class Timeline extends Component {
     static propTypes = {
-        songs: PropTypes.array
+        songs: PropTypes.array,
+        handlePlay: PropTypes.func
     };
 
     static defaultProps = {
@@ -15,7 +16,7 @@ class Timeline extends Component {
         const songs = this.props.songs.map(s => {
             return(
                 <div key={s.id.toString()}>
-                    <Player song={s}/>
+                    <SongItem song={s} handlePlay={() => this.props.handlePlay(s.id)}/>
                 </div>
             );
         });
@@ -25,8 +26,6 @@ class Timeline extends Component {
                 {songs}
             </div>
         )
-
-
     }
 }
 
