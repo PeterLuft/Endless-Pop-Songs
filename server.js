@@ -96,7 +96,7 @@ app.use(function(req, res, next) {
 
 app.get('/song', (req, res) => {
 
-    let limit = 5;
+    let limit = 1;
     let songs = [];
 
     for(var i = 0; i < limit; i++){

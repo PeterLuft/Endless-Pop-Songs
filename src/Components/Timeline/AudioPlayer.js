@@ -1,40 +1,42 @@
 import React, {Component} from 'react';
 import Tone from 'tone';
-import ChordDisplay from './ChordDisplay';
 import PropTypes from 'prop-types';
 
 
-
-class Player extends Component {
+class AudioPlayer extends Component {
 
     static propTypes = {
-        song: PropTypes.object
+        song: PropTypes.object,
+        handlePlay: PropTypes.func
     };
 
     static defaultProps = {
-        song: {
-            title: 'Song title',
-            tempo: 0,
-            key: 'A',
-            chords: []
-        }
+        song: {}
     };
 
-    componentDidUpdate(){
+    componentDidMount(){
         this.loadSong(this.props.song);
-    }
+    };
+
+    parseChord = input => {
+        //TODO: takes letter representation of chord and returns series of notes comprising it
+        //for now just returns placeholder chord
+        return ["C4", "E4", "G4"];
+    };
 
     loadSong = songData => {
         this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 
+        let chordList = songData.chords.map((chord, index) => {
+            let entry = [];
+            entry.push("0:" + index);
+            entry.push(this.parseChord(chord));
+            return entry;
+        });
+
         this.progression = new Tone.Part((time, chord) => {
             this.synth.triggerAttackRelease(chord, "4n", time);
-        }, [
-            ["0:0", songData.chords[0]],
-            ["0:1", songData.chords[1]],
-            ["0:2", songData.chords[2]],
-            ["0:3", songData.chords[3]]
-        ]).start("0");
+        }, chordList).start("0");
 
         this.progression.loop = true;
         this.progression.loopEnd = "1m";
@@ -48,20 +50,16 @@ class Player extends Component {
 
     playClicked = () => {
         Tone.Transport.start();
+        this.props.handlePlay();
     };
 
-    render(){
+    render() {
         return (
-            <div className="Player">
-                <h4>{this.props.song.title}</h4>
-                <p>Tempo: {this.props.song.tempo}</p>
-                <p>Key: {this.props.song.key}</p>
-                <ChordDisplay chords={this.props.song.chords}/>
-                <button onClick={() => {this.playClicked()}}>Play Tone</button>
+            <div>
+                <button onClick={() => this.playClicked()}>Play</button>
             </div>
         )
     }
 }
 
-export default Player;
-
+export default AudioPlayer;
