@@ -21,6 +21,7 @@ export const createUser = creds => dispatch => {
                 console.log(data);
 
                 dispatch(receiveCreateUser(data.user));
+                dispatch(logUserIn(creds));
             })
         )
         .catch(error => {
@@ -46,6 +47,7 @@ export const logUserIn = creds => dispatch => {
 
     return fetch('http://localhost:3001/auth', config)
         .then(response => response.json().then(data => {
+                //TODO: create middleware to store token in localstorage instead
                 localStorage.setItem("id_token", data.token);
                 dispatch(receiveLogin(data.user));
             })
@@ -101,5 +103,5 @@ export const requestLogout = () => ({
 
 export const receiveLogout = () => ({
     type: userTypes.RECEIVE_LOGOUT
-})
+});
 

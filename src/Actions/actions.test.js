@@ -37,9 +37,12 @@ describe('async actions', () => {
     });
 
     it('should request and receive a token upon login', () => {
-        fetchMock.getOnce('http://localhost:3001/auth',
+        fetchMock.postOnce('http://localhost:3001/auth',
             {
-                name: 'Kevin Smith',
+                title: 'Successful Authentication',
+                user: {
+                    name: 'Kevin Smith'
+                },
                 token: '1234'
             }
         );
@@ -47,7 +50,7 @@ describe('async actions', () => {
         const mockCreds = {
             email: 'testemail',
             password: 'test'
-        }
+        };
         const expectedActions = [
             {
                 type: userTypes.REQUEST_LOGIN
@@ -56,8 +59,7 @@ describe('async actions', () => {
                 type: userTypes.RECEIVE_LOGIN,
                 payload: {
                     user: {
-                        name: 'Kevin Smith',
-                        token: '1234'
+                        name: 'Kevin Smith'
                     }
                 }
             }
@@ -158,7 +160,7 @@ describe('song actions', () => {
         const expectedAction = {
             type: songTypes.REQUEST_SONG
         };
-        expect(songActions.requestSong()).toEqual(expectedAction);
+        expect(songActions.requestSongs()).toEqual(expectedAction);
     });
 
     it('should create a RECEIVE_SONG action', () => {
@@ -171,7 +173,7 @@ describe('song actions', () => {
             payload: expectedSong
         };
 
-        expect(songActions.receiveSong(expectedSong)).toEqual(expectedAction);
+        expect(songActions.receiveSongs(expectedSong)).toEqual(expectedAction);
     });
 
     it('should create a FAILURE_SONG action', () => {
@@ -180,7 +182,7 @@ describe('song actions', () => {
             type: songTypes.FAILURE_SONG,
             message: expectedError
         };
-        expect(songActions.failureSong(expectedError)).toEqual(expectedAction);
+        expect(songActions.failureSongs(expectedError)).toEqual(expectedAction);
     });
 
 });
