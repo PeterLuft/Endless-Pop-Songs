@@ -1,27 +1,28 @@
+import * as types from '../Constants/songActionTypes';
+
 export const retrieveNewSong = () => dispatch => {
-    dispatch(requestSong());
+    dispatch(requestSongs());
 
     return fetch('http://localhost:5000/song')
-        .then(response => response.json().then(song => {
-                dispatch(receiveSong(song));
+        .then(response => response.json().then(data => {
+                dispatch(receiveSongs(data));
             })
         )
         .catch(error => {
-            console.log(error);
-            dispatch(failureSong(error));
+            dispatch(failureSongs(error));
         });
 };
 
-export const requestSong = () => ({
-    type: "REQUEST_SONG"
+export const requestSongs = () => ({
+    type: types.REQUEST_SONGS
 });
 
-export const receiveSong = song => ({
-    type: "RECEIVE_SONG",
-    payload: song
+export const receiveSongs = songs => ({
+    type: types.RECEIVE_SONGS,
+    payload: songs
 });
 
-export const failureSong = message => ({
-    type: "FAILURE_SONG",
+export const failureSongs = message => ({
+    type: types.FAILURE_SONGS,
     message: message
 });

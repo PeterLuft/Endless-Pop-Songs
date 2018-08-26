@@ -4,27 +4,27 @@ const app = express();
 const keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
-generateSong = () => {
+generateSong = (title, id) => {
     let key = keys[randInteger(keys.length - 1)];
     let scale = shiftKey(notes.slice(), notes.indexOf(key));
+    let tempo = randInteger(100, 190);
 
-    let progression = [];
+    let chords = [];
 
     for(let i = 0; i < randInteger(4, 2); i++){
         let a = [];
         generateChords().map(interval => {
             a.push(scale[interval - 1]);
         });
-
-        progression.push(a);
+        chords.push(a);
     }
 
-    console.log(progression);
-
     let song = {
-        name: "bob",
+        id: id,
+        title: title,
+        tempo: tempo,
         key: key,
-        progression: progression
+        chords: chords
     };
 
     return song;
@@ -88,11 +88,6 @@ shiftKey = (scale, toShift) => {
     return scale;
 };
 
-getProgression = (chords) => {
-
-};
-
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -101,9 +96,15 @@ app.use(function(req, res, next) {
 
 app.get('/song', (req, res) => {
 
-    let newSong = generateSong();
+    let limit = 5;
+    let songs = [];
+
+    for(var i = 0; i < limit; i++){
+        songs.push(generateSong('My song ' + (i + 1), i));
+    }
 
     let temp = {
+        title: 'Feeling This',
         tempo: 170,
         chords: [
             ["C4", "E4", "G4"],
@@ -112,7 +113,8 @@ app.get('/song', (req, res) => {
             ["F4", "A4", "C5"]
         ],
     };
-    res.send(temp);
+
+    res.send(songs);
 });
 
 app.listen(5000, () => console.log("Listening on port 5000"));

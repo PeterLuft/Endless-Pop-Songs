@@ -1,9 +1,24 @@
 import React, {Component} from 'react';
 import Tone from 'tone';
+import ChordDisplay from './ChordDisplay';
+import PropTypes from 'prop-types';
 
 
 
 class Player extends Component {
+
+    static propTypes = {
+        song: PropTypes.object
+    };
+
+    static defaultProps = {
+        song: {
+            title: 'Song title',
+            tempo: 0,
+            key: 'A',
+            chords: []
+        }
+    };
 
     componentDidUpdate(){
         this.loadSong(this.props.song);
@@ -32,17 +47,17 @@ class Player extends Component {
     };
 
     playClicked = () => {
-        console.log("clicked");
         Tone.Transport.start();
     };
 
     render(){
         return (
             <div className="Player">
-                <h2>Audio player</h2>
-
+                <h4>{this.props.song.title}</h4>
+                <p>Tempo: {this.props.song.tempo}</p>
+                <p>Key: {this.props.song.key}</p>
+                <ChordDisplay chords={this.props.song.chords}/>
                 <button onClick={() => {this.playClicked()}}>Play Tone</button>
-
             </div>
         )
     }
