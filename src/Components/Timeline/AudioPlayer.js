@@ -7,16 +7,31 @@ class AudioPlayer extends Component {
 
     static propTypes = {
         song: PropTypes.object,
-        handlePlay: PropTypes.func
+        handlePlay: PropTypes.func,
+        isPlaying: PropTypes.bool
     };
 
     static defaultProps = {
-        song: {}
+        song: {
+            chords: [],
+            id: null,
+
+        },
+        isPlaying: false
     };
 
-    componentDidMount(){
+    componentDidMount() {
         this.loadSong(this.props.song);
     };
+
+    componentDidUpdate() {
+        if (this.props.isPlaying) {
+            Tone.Transport.start();
+        }
+        else {
+            Tone.Transport.stop();
+        }
+    }
 
     parseChord = input => {
         //TODO: takes letter representation of chord and returns series of notes comprising it
@@ -25,6 +40,7 @@ class AudioPlayer extends Component {
     };
 
     loadSong = songData => {
+        console.log('loading data for song');
         this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 
         let chordList = songData.chords.map((chord, index) => {
@@ -49,14 +65,14 @@ class AudioPlayer extends Component {
     };
 
     playClicked = () => {
-        Tone.Transport.start();
         this.props.handlePlay();
     };
 
     render() {
         return (
             <div>
-                <button onClick={() => this.playClicked()}>Play</button>
+                <h2>{this.props.song.title}</h2>
+                <button onClick={() => this.playClicked()}>{this.props.isPlaying ? 'Pause' : 'Play'}</button>
             </div>
         )
     }

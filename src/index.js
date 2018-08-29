@@ -13,7 +13,6 @@ import Reducer from './Reducers';
 const middleware = [thunk];
 const store = createStore(Reducer, applyMiddleware(...middleware));
 
-console.log(store.getState());
 
 const unsubscribe = store.subscribe(() => {
     console.log(store.getState());
