@@ -1,6 +1,8 @@
 import {combineReducers} from "redux";
 import * as userTypes from '../Constants/userActionTypes';
 import * as songTypes from '../Constants/songActionTypes';
+import * as controlsTypes from '../Constants/controlsActionTypes';
+
 
 const songs = (state = {
     isFetching: false,
@@ -32,10 +34,45 @@ const songs = (state = {
                 isLoaded: false,
                 error: action.message
             };
+
+
         default:
             return state;
     }
 };
+
+
+const controls = (state = {
+    isPlaying: false,
+    activeSong: {
+        id: null
+    }
+}, action) => {
+    console.log(action);
+    switch (action.type) {
+        case controlsTypes.LOAD_SONG:
+            return {
+                ...state,
+                activeSong: action.song,
+                isPlaying: true
+            }
+
+        case controlsTypes.PLAY_SONG:
+            return {
+                ...state,
+                isPlaying: true
+            };
+        case controlsTypes.PAUSE_SONG:
+            return {
+                ...state,
+                isPlaying: false
+            };
+        default:
+            return state
+    }
+
+};
+
 
 const users = (state = {
     isFetching: false,
@@ -110,6 +147,6 @@ const users = (state = {
     }
 };
 
-const Reducer = combineReducers({songs, users});
+const Reducer = combineReducers({songs, controls, users});
 
 export default Reducer;

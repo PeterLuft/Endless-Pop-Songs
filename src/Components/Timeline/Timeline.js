@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import SongItem from './SongItem'
 import PropTypes from 'prop-types';
+import AudioPlayer from './AudioPlayer';
 
 class Timeline extends Component {
     static propTypes = {
         songs: PropTypes.array,
+        isPlaying: PropTypes.bool,
+        activeSong: PropTypes.object,
         handlePlay: PropTypes.func
     };
 
@@ -12,20 +15,45 @@ class Timeline extends Component {
         songs: []
     };
 
-    render(){
+    render() {
         const songs = this.props.songs.map(s => {
-            return(
+            return (
                 <div key={s.id.toString()}>
-                    <SongItem song={s} handlePlay={() => this.props.handlePlay(s.id)}/>
+                    <SongItem
+                        song={s}
+                        isPlaying={this.props.isPlaying && this.props.activeSong.id === s.id}
+                        handlePlay={() => {
+                            this.props.handlePlay(s);
+                        }}
+                    />
                 </div>
             );
         });
 
-        return(
-            <div>
-                {songs}
-            </div>
-        )
+        if(!isNaN(parseFloat(this.props.activeSong.id))){
+            return(
+                <div>
+                    <div>
+                        <AudioPlayer song={this.props.activeSong} isPlaying={this.props.isPlaying} handlePlay={() => this.props.handlePlay(this.props.activeSong)}/>
+                    </div>
+                    <div>
+                        {songs}
+                    </div>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div>
+                    <div>
+                        {songs}
+                    </div>
+                </div>
+            )
+        }
+
+
+
     }
 }
 

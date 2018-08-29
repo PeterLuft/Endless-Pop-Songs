@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {retrieveNewSong} from "../Actions/songs";
 import {createUser, logUserIn, logUserOut} from '../Actions/user';
+import {playPressed} from "../Actions/controls";
 
 //use named export for unconnected component (for testing)
 export class App extends Component {
@@ -24,7 +25,9 @@ export class App extends Component {
         createAccount: PropTypes.func,
         signUserIn: PropTypes.func,
         signUserOut: PropTypes.func,
-        handlePlay: PropTypes.func
+        playPressed: PropTypes.func,
+        isPlaying: PropTypes.bool,
+        activeId: PropTypes.number
     };
 
     componentDidMount() {
@@ -34,19 +37,24 @@ export class App extends Component {
     render() {
 
         if (this.props.signedIn) {
-            if(!this.props.loadedSongs){
-                return(
+            if (!this.props.loadedSongs) {
+                return (
                     <div className="App">
                         <h3>Loading songs...</h3>
                     </div>
                 );
             }
-            else{
-                return(
+            else {
+                return (
                     <div className="App">
-                        <h1>Song Generator</h1>
+                        <h1>Endless Pop Songs</h1>
                         <Signout logoutClicked={() => this.props.signUserOut()}/>
-                        <Timeline songs={this.props.currentSongs} handlePlay={id => this.props.handlePlay(id)}/>
+                        <Timeline
+                            songs={this.props.currentSongs}
+                            handlePlay={song => this.props.playPressed(song)}
+                            activeSong={this.props.activeSong}
+                            isPlaying={this.props.isPlaying}
+                        />
                     </div>
                 );
             }
@@ -73,7 +81,6 @@ export class App extends Component {
     }
 }
 
-
 const mapStateToProps = state => ({
     currentSongs: state.songs.currentSongs,
     signedIn: state.users.isAuthenticated,
@@ -81,10 +88,12 @@ const mapStateToProps = state => ({
     loadedSongs: state.songs.isLoaded,
     fetchingUser: state.users.isFetching,
     loadedUser: state.users.isLoaded,
-    user: state.users.user
+    user: state.users.user,
+    activeSong: state.controls.activeSong,
+    isPlaying: state.controls.isPlaying
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
 
     generateSong: () => {
         dispatch(retrieveNewSong());
@@ -98,11 +107,9 @@ const mapDispatchToProps = dispatch => ({
     signUserOut: () => {
         dispatch(logUserOut());
     },
-    handlePlay: id => {
-        //TODO: implement audio player state in redux
-        console.log(id);
+    playPressed: song => {
+        dispatch(playPressed(song));
     }
-
 });
 
 

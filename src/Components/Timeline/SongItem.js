@@ -8,7 +8,8 @@ class SongItem extends Component {
 
     static propTypes = {
         song: PropTypes.object,
-        handlePlay: PropTypes.func
+        handlePlay: PropTypes.func,
+        isPlaying: PropTypes.bool
     };
 
     static defaultProps = {
@@ -29,7 +30,7 @@ class SongItem extends Component {
                 <p>Tempo: {this.props.song.tempo}</p>
                 <p>Key: {this.props.song.key}</p>
                 <ChordDisplay chords={this.props.song.chords}/>
-                <AudioPlayer song={this.props.song} handlePlay={() => this.props.handlePlay()}/>
+                <button onClick={() => this.props.handlePlay()}>{this.props.isPlaying ? 'Pause': 'Play'}</button>
             </div>
         )
     }
