@@ -3,6 +3,9 @@ import Tone from 'tone';
 import PropTypes from 'prop-types';
 
 
+const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+
+
 class AudioPlayer extends Component {
 
     static propTypes = {
@@ -20,33 +23,109 @@ class AudioPlayer extends Component {
         isPlaying: false
     };
 
+    state = {
+        localSong: {}
+    };
+
     componentDidMount() {
         this.loadSong(this.props.song);
+        this.setState({
+            localSong: this.props.song
+        });
     };
 
     componentDidUpdate() {
+        //if new song has been selected, call the expensive load function again
+        if (this.state.localSong !== this.props.song) {
+            this.loadSong(this.props.song);
+            this.setState({
+                localSong: this.props.song
+            });
+        }
         if (this.props.isPlaying) {
             Tone.Transport.start();
         }
         else {
             Tone.Transport.stop();
         }
+
     }
 
-    parseChord = input => {
+    parseChord = (input, scale) => {
         //TODO: takes letter representation of chord and returns series of notes comprising it
+        let root = 0;
+        let chord;
+
+
+        if (input[1] === '#') {
+            root = scale.indexOf(input.slice(0, 2)) + 1;
+        }
+        else {
+            root = scale.indexOf(input.slice(0, 1)) + 1;
+        }
+
+        console.log(root);
+
+
+        switch (root) {
+            case 1:
+                //major root
+                chord = [scale[0] + '3', scale[2] + '3', scale[4] + '3'];
+                break;
+            case 2:
+                chord = [scale[1] + '3', scale[3] + '3', scale[5] + '3'];
+                break;
+            case 3:
+                chord = [scale[2] + '3', scale[4] + '3', scale[6] + '3'];
+                break;
+            case 4:
+                chord = [scale[3] + '3', scale[5] + '3', scale[0] + '3'];
+                break;
+            case 5:
+                chord = [scale[4] + '3', scale[6] + '3', scale[1] + '3'];
+                break;
+            case 6:
+                chord = [scale[5] + '3', scale[0] + '4', scale[2] + '4'];
+                break;
+            case 7:
+                chord = [scale[6] + '3', scale[1] + '4', scale[3] + '4'];
+                break;
+            default:
+                chord = [];
+
+        }
+
+
+      //  console.log(chord);
+
         //for now just returns placeholder chord
-        return ["C4", "E4", "G4"];
+        return chord;
+    };
+
+
+    shiftKey = (scale, toShift) => {
+        for (let i = 0; i < toShift; i++) {
+            scale.push(scale.shift());
+        }
+        let toRemove = [1, 3, 6, 8, 10];
+
+        for (let i = toRemove.length - 1; i >= 0; i--) {
+            scale.splice(toRemove[i], 1);
+        }
+        return scale;
     };
 
     loadSong = songData => {
         console.log('loading data for song');
-        this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 
-        let chordList = songData.chords.map((chord, index) => {
+        this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
+        let scale = this.shiftKey(notes.slice(), notes.indexOf(this.props.song.key));
+
+
+        let chordList = songData.chords[0].map((chord, index) => {
             let entry = [];
             entry.push("0:" + index);
-            entry.push(this.parseChord(chord));
+            entry.push(this.parseChord(chord, scale));
             return entry;
         });
 
@@ -69,6 +148,7 @@ class AudioPlayer extends Component {
     };
 
     render() {
+
         return (
             <div>
                 <h2>{this.props.song.title}</h2>

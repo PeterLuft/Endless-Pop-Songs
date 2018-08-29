@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ChordDisplay from './ChordDisplay';
-import AudioPlayer from './AudioPlayer';
 import PropTypes from 'prop-types';
 
 
