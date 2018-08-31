@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import withStyles from '@material-ui/core/styles/withStyles';
+import BackButton from '@material-ui/icons/ArrowBack';
 
 
 const styles = theme => ({
@@ -46,37 +47,44 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            signup: false,
-            signin: false
+            mode: 'main'
         };
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange = event => {
-        const name = event.target.name;
-        console.log(name);
-        // if(name === 'signup'){
-        //     console.log("SIGNUP");
-        // }
-        // else if(name === 'signin'){
-        //     console.log('SIGNIN');
-        // }
+    handleChange(name) {
+        this.setState({
+            mode: name
+        });
     };
 
     render() {
         const {classes} = this.props;
         let content = '';
 
-        if (this.state.signup) {
+        if (this.state.mode === 'signup') {
             content = (
                 <div>
+                    <Button
+                        variant="raised"
+                        className={classes.submit}
+                        name="main"
+                        onClick={() => this.handleChange('main')}
+                    >Back</Button>
                     <Signup submitSignup={creds => this.props.createAccount(creds)}/>
                 </div>
             );
         }
-        else if (this.state.signin) {
+        else if (this.state.mode === 'signin') {
             content = (
                 <div>
+                    <Button
+                        variant="raised"
+                        className={classes.submit}
+                        name="main"
+                        onClick={() => this.handleChange('main')}
+                    >Back</Button>
+
                     <Signin submitSignin={creds => this.props.signUserIn(creds)}/>
                 </div>
             );
@@ -89,13 +97,13 @@ class LoginPage extends Component {
                         className={classes.submit}
                         name="signup"
                         color="primary"
-                        onClick={this.handleChange}
+                        onClick={() => this.handleChange('signup')}
                     >Get started</Button>
                     <Button
                         variant="raised"
                         className={classes.submit}
                         name="signin"
-                        onClick={this.handleChange}
+                        onClick={() => this.handleChange('signin')}
                     >
                         Sign in
                     </Button>
