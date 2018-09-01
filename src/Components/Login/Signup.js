@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import FormControl from '@material-ui/core/FormControl';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import IconButton from '@material-ui/core/IconButton';
+import BackButton from '@material-ui/icons/ArrowBack';
 
 
 const styles = theme => ({
@@ -100,55 +102,56 @@ class Signup extends Component {
         return (
             <div>
                 <CssBaseline/>
-                <main className={classes.layout}>
-                    <Paper className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockIcon/>
-                        </Avatar>
-                        <Typography variant="headline">Sign Up</Typography>
-                        <form onSubmit={this.handleSubmit} className={classes.form}>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Email:</InputLabel>
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                    autoFocus
-                                />
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="password">Password:</InputLabel>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                />
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="pwConf">Confirm Password:</InputLabel>
-                                <Input
-                                    type="password"
-                                    name="pwConf"
-                                    value={this.state.pwConf}
-                                    onChange={this.handleChange}
-                                />
-                            </FormControl>
-                            <Button
-                                type="submit"
-                                value="submit"
-                                fullWidth
-                                variant="raised"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Sign up
-                            </Button>
-                        </form>
-                    </Paper>
-                </main>
+                <IconButton
+                    variant="raised"
+                    className={classes.backButton}
+                    name="main"
+                    onClick={() => this.props.backPressed()}
+                >
+                    <BackButton/>
+                </IconButton>
+                <Typography variant="headline">Sign Up</Typography>
+                <form onSubmit={this.handleSubmit} className={classes.form}>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Email:</InputLabel>
+                        <Input
+                            id="email"
+                            name="email"
+                            autoComplete="email"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            autoFocus
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Password:</InputLabel>
+                        <Input
+                            type="password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                        />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="pwConf">Confirm Password:</InputLabel>
+                        <Input
+                            type="password"
+                            name="pwConf"
+                            value={this.state.pwConf}
+                            onChange={this.handleChange}
+                        />
+                    </FormControl>
+                    <Button
+                        type="submit"
+                        value="submit"
+                        fullWidth
+                        variant="raised"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Sign up
+                    </Button>
+                </form>
             </div>
         );
     }

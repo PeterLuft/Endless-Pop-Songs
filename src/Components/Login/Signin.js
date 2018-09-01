@@ -5,11 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
-import Avatar from '@material-ui/core/Avatar';
-import Paper from '@material-ui/core/Paper';
-import LockIcon from '@material-ui/icons/LockOutlined';
 import FormControl from '@material-ui/core/FormControl';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import IconButton from '@material-ui/core/IconButton';
+import BackButton from '@material-ui/icons/ArrowBack';
+
 
 const styles = theme => ({
     layout: {
@@ -27,12 +27,8 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'left',
         padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-    },
-    avatar: {
-        margin: theme.spacing.unit,
-        backgroundColor: theme.palette.secondary.main
     },
     form: {
         width: '100%',
@@ -87,46 +83,49 @@ class Signin extends Component {
         return (
             <div>
                 <CssBaseline/>
-                <main className={classes.layout}>
-                    <Paper className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockIcon/>
-                        </Avatar>
-                        <Typography variant="headline">Sign in</Typography>
-                        <form onSubmit={this.handleSubmit} className={classes.form}>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">Email:</InputLabel>
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    autoComplete="email"
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                    autoFocus/>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="password">Password</InputLabel>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                />
-                            </FormControl>
-                            <Button
-                                type="submit"
-                                value="submit"
-                                fullWidth
-                                variant="raised"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                            Log in
-                            </Button>
-                            {this.state.message.length > 0 ? <span>{this.state.message}</span> : ''}
-                        </form>
-                    </Paper>
-                </main>
+
+                <IconButton
+                    variant="raised"
+                    className={classes.backButton}
+                    name="main"
+                    onClick={() => this.props.backPressed()}
+                >
+                    <BackButton/>
+                </IconButton>
+
+                <Typography variant="headline">Sign in</Typography>
+                <form onSubmit={this.handleSubmit} className={classes.form}>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="email">Email:</InputLabel>
+                        <Input
+                            id="email"
+                            name="email"
+                            autoComplete="email"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            autoFocus/>
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <Input
+                            type="password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                        />
+                    </FormControl>
+                    <Button
+                        type="submit"
+                        value="submit"
+                        fullWidth
+                        variant="raised"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Log in
+                    </Button>
+                    {this.state.message.length > 0 ? <span>{this.state.message}</span> : ''}
+                </form>
             </div>
         );
 

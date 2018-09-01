@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import withStyles from '@material-ui/core/styles/withStyles';
-import BackButton from '@material-ui/icons/ArrowBack';
+import IconButton from '@material-ui/core/IconButton';
+
 
 
 const styles = theme => ({
@@ -32,6 +33,10 @@ const styles = theme => ({
             display: 'block',
             width: 'auto',
             marginTop: theme.spacing.unit * 3
+        },
+        backButton: {
+            marginLeft: theme.spacing.unit*2
+
         }
     })
 ;
@@ -65,27 +70,14 @@ class LoginPage extends Component {
         if (this.state.mode === 'signup') {
             content = (
                 <div>
-                    <Button
-                        variant="raised"
-                        className={classes.submit}
-                        name="main"
-                        onClick={() => this.handleChange('main')}
-                    >Back</Button>
-                    <Signup submitSignup={creds => this.props.createAccount(creds)}/>
+                    <Signup submitSignup={creds => this.props.createAccount(creds)} backPressed={() => this.handleChange('main')}/>
                 </div>
             );
         }
         else if (this.state.mode === 'signin') {
             content = (
                 <div>
-                    <Button
-                        variant="raised"
-                        className={classes.submit}
-                        name="main"
-                        onClick={() => this.handleChange('main')}
-                    >Back</Button>
-
-                    <Signin submitSignin={creds => this.props.signUserIn(creds)}/>
+                    <Signin submitSignin={creds => this.props.signUserIn(creds)} backPressed={() => this.handleChange('main')}/>
                 </div>
             );
         }
@@ -105,7 +97,7 @@ class LoginPage extends Component {
                         name="signin"
                         onClick={() => this.handleChange('signin')}
                     >
-                        Sign in
+                        Log in
                     </Button>
                 </div>
             );
