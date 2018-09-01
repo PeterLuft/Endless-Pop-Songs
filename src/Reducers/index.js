@@ -46,9 +46,9 @@ const controls = (state = {
     isPlaying: false,
     activeSong: {
         id: null
-    }
+    },
+    loadingSong: false
 }, action) => {
-    console.log(action);
     switch (action.type) {
         case controlsTypes.LOAD_SONG:
             return {

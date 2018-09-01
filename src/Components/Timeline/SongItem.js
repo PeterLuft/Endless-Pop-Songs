@@ -1,7 +1,19 @@
 import React, {Component} from 'react';
 import ChordDisplay from './ChordDisplay';
-import AudioPlayer from './AudioPlayer';
 import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+
+const styles = theme => ({
+    paper: {
+        padding: theme.spacing.unit,
+        marginBottom: theme.spacing.unit * 2
+    }
+});
 
 
 class SongItem extends Component {
@@ -23,18 +35,31 @@ class SongItem extends Component {
     };
 
 
-    render(){
+    render() {
+
+        const {classes} = this.props;
+
         return (
             <div className="SongItem">
-                <h4>{this.props.song.title}</h4>
-                <p>Tempo: {this.props.song.tempo}</p>
-                <p>Key: {this.props.song.key}</p>
-                <ChordDisplay chords={this.props.song.chords}/>
-                <button onClick={() => this.props.handlePlay()}>{this.props.isPlaying ? 'Pause': 'Play'}</button>
+                <Paper className={classes.paper}>
+                    <Typography variant="title">{this.props.song.title}</Typography>
+                    <Typography variant="subheading">Tempo: {this.props.song.tempo}</Typography>
+                    <Typography variant="subheading">Key: {this.props.song.key}</Typography>
+                    <ChordDisplay chords={this.props.song.chords}/>
+                    <IconButton onClick={() => this.props.handlePlay()}>
+                        <div>
+                            {this.props.isPlaying ? (
+                                <PauseIcon/>
+                            ) : (
+                                <PlayIcon/>
+                            )}
+                        </div>
+                    </IconButton>
+                </Paper>
             </div>
         )
     }
 }
 
-export default SongItem;
+export default withStyles(styles)(SongItem);
 

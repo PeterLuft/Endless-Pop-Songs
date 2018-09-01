@@ -1,5 +1,20 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+
+const styles = theme => ({
+    chords: {
+        display: 'inline',
+        marginRight: theme.spacing.unit * 6
+    },
+    progression: {
+        listStyle: 'none',
+        marginBottom: theme.spacing.unit
+    }
+
+});
+
 
 class ChordDisplay extends Component {
 
@@ -13,15 +28,22 @@ class ChordDisplay extends Component {
 
 
     render() {
+
+        const {classes} = this.props;
+
         const chords = this.props.chords.map((prog, index) => {
                 const progression = prog.map((chord, i) =>
-                    <div key={i}>
-                        {chord}
+                    <div key={i} className={classes.chords}>
+                        <Typography variant="body2"  style={{display: 'inline-block'}}>
+                            {chord}
+                        </Typography>
                     </div>
                 );
-                return(
-                    <li key={index}>
-                        {progression}
+                return (
+                    <li key={index} className={classes.progression}>
+                        <div>
+                            {progression}
+                        </div>
                     </li>
                 );
             }
@@ -29,11 +51,13 @@ class ChordDisplay extends Component {
 
         return (
             <div>
-                <p>Chords</p>
+                <Typography variant="subheading">
+                    Chords:
+                </Typography>
                 <ul>{chords}</ul>
             </div>
         );
     }
 }
 
-export default ChordDisplay;
+export default withStyles(styles)(ChordDisplay);
