@@ -93,7 +93,7 @@ class Signin extends Component {
                     <BackButton/>
                 </IconButton>
 
-                <Typography variant="headline">Sign in</Typography>
+                <Typography variant="headline">Log in</Typography>
                 <form onSubmit={this.handleSubmit} className={classes.form}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email:</InputLabel>

@@ -23,7 +23,7 @@ const styles = theme => ({
             }
         },
         paper: {
-            marginTop: theme.spacing.unit * 8,
+            marginTop: theme.spacing.unit * 10,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -31,8 +31,8 @@ const styles = theme => ({
         },
         submit: {
             display: 'block',
-            width: 'auto',
-            marginTop: theme.spacing.unit * 3
+            width: '100%',
+            marginTop: theme.spacing.unit * 2
         },
         backButton: {
             marginLeft: theme.spacing.unit*2
