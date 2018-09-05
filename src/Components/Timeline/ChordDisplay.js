@@ -2,15 +2,21 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
+    root: {
+        flexGrow: 1
+    },
     chords: {
-        display: 'inline',
-        marginRight: theme.spacing.unit * 6
+        textAlign: 'center',
+        border: '1px solid grey'
     },
     progression: {
-        listStyle: 'none',
-        marginBottom: theme.spacing.unit
+        marginBottom: theme.spacing.unit*2,
+        marginTop: theme.spacing.unit,
+        marginLeft: theme.spacing.unit,
+        width: '80%'
     }
 
 });
@@ -33,18 +39,16 @@ class ChordDisplay extends Component {
 
         const chords = this.props.chords.map((prog, index) => {
                 const progression = prog.map((chord, i) =>
-                    <div key={i} className={classes.chords}>
-                        <Typography variant="body2"  style={{display: 'inline-block'}}>
+                    <Grid item key={i} className={classes.chords} xs={3}>
+                        <Typography variant="display1">
                             {chord}
                         </Typography>
-                    </div>
+                    </Grid>
                 );
                 return (
-                    <li key={index} className={classes.progression}>
-                        <div>
+                    <Grid container spacing={24} key={index} className={classes.progression}>
                             {progression}
-                        </div>
-                    </li>
+                    </Grid>
                 );
             }
         );
@@ -54,7 +58,7 @@ class ChordDisplay extends Component {
                 <Typography variant="subheading">
                     Chords:
                 </Typography>
-                <ul>{chords}</ul>
+                <div className={classes.root}>{chords}</div>
             </div>
         );
     }
