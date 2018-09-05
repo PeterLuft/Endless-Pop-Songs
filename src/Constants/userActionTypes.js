@@ -8,3 +8,5 @@ export const FAILURE_LOGIN = "FAILURE_LOGIN";
 
 export const REQUEST_LOGOUT = "REQUEST_LOGOUT";
 export const RECEIVE_LOGOUT = "RECEIVE_LOGOUT";
+
+export const SET_USER_ERROR = "SET_USER_ERROR";

@@ -1,9 +1,24 @@
 import React, {Component} from 'react';
 import Tone from 'tone';
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import PlayIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper'
 
 
 const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+
+
+const styles = theme => ({
+    paper: {
+        marginBottom: theme.spacing.unit * 3,
+        marginTop: theme.spacing.unit * 3
+
+    }
+});
 
 
 class AudioPlayer extends Component {
@@ -52,7 +67,6 @@ class AudioPlayer extends Component {
     }
 
     parseChord = (input, scale) => {
-        //TODO: takes letter representation of chord and returns series of notes comprising it
         let root = 0;
         let chord;
 
@@ -63,9 +77,6 @@ class AudioPlayer extends Component {
         else {
             root = scale.indexOf(input.slice(0, 1)) + 1;
         }
-
-        console.log(root);
-
 
         switch (root) {
             case 1:
@@ -95,8 +106,6 @@ class AudioPlayer extends Component {
 
         }
 
-
-      //  console.log(chord);
 
         //for now just returns placeholder chord
         return chord;
@@ -149,13 +158,26 @@ class AudioPlayer extends Component {
 
     render() {
 
+
+        const {classes} = this.props;
+
         return (
             <div>
-                <h2>{this.props.song.title}</h2>
-                <button onClick={() => this.playClicked()}>{this.props.isPlaying ? 'Pause' : 'Play'}</button>
+                <Paper className={classes.paper}>
+                    <Typography variant="headline">{this.props.song.title}</Typography>
+                    <IconButton onClick={() => this.playClicked()}>
+                        <div>
+                            {this.props.isPlaying ? (
+                                <PauseIcon/>
+                            ) : (
+                                <PlayIcon/>
+                            )}
+                        </div>
+                    </IconButton>
+                </Paper>
             </div>
         )
     }
 }
 
-export default AudioPlayer;
+export default withStyles(styles)(AudioPlayer);
