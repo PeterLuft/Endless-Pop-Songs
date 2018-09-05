@@ -1,0 +1,1 @@
+export const SET_LOGIN_MODE = "SET_LOGIN_MODE";

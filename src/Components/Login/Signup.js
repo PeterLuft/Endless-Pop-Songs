@@ -42,7 +42,11 @@ const styles = theme => ({
         marginTop: theme.spacing.unit
     },
     submit: {
-        marginTop: theme.spacing.unit * 3
+        marginTop: theme.spacing.unit * 3,
+        height: '50px'
+    },
+    errorMessage: {
+
     }
 });
 
@@ -50,7 +54,8 @@ class Signup extends Component {
 
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        submitSignup: PropTypes.func.isRequired
+        submitSignup: PropTypes.func.isRequired,
+        message: PropTypes.string
     };
 
     constructor(props) {
@@ -98,7 +103,22 @@ class Signup extends Component {
 
 
     render() {
+
         const {classes} = this.props;
+        let errorMessage;
+
+        if(this.props.message.length > 0 || this.state.message.length > 0){
+            errorMessage = (
+                <div className={classes.errorMessage}>
+                    <Typography color="error">{this.props.message}</Typography>
+                    <Typography>{this.state.message}</Typography>
+                </div>
+            )
+        }
+        else{
+            errorMessage = '';
+        }
+
         return (
             <div>
                 <CssBaseline/>
@@ -110,6 +130,7 @@ class Signup extends Component {
                 >
                     <BackButton/>
                 </IconButton>
+                {errorMessage}
                 <Typography variant="headline">Sign Up</Typography>
                 <form onSubmit={this.handleSubmit} className={classes.form}>
                     <FormControl margin="normal" required fullWidth>

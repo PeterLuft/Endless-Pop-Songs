@@ -7,8 +7,9 @@ import PropTypes from 'prop-types';
 
 import {connect} from "react-redux";
 import {retrieveNewSong} from "../Actions/songs";
-import {createUser, logUserIn, logUserOut} from '../Actions/user';
+import {createUser, logUserIn, logUserOut, setUserError} from '../Actions/user';
 import {playPressed} from "../Actions/controls";
+import {setLoginMode} from "../Actions/loginPage";
 
 //use named export for unconnected component (for testing)
 export class App extends Component {
@@ -27,7 +28,10 @@ export class App extends Component {
         signUserOut: PropTypes.func,
         playPressed: PropTypes.func,
         isPlaying: PropTypes.bool,
-        activeId: PropTypes.number
+        activeId: PropTypes.number,
+        error: PropTypes.string,
+        loginMode: PropTypes.string,
+        setLoginMode: PropTypes.func
     };
 
     componentDidMount() {
@@ -68,11 +72,15 @@ export class App extends Component {
                 );
             }
             else {
+                console.log('rendering login');
                 return (
                     <div className="App">
                         <LoginPage
                             createAccount={creds => this.props.createAccount(creds)}
                             signUserIn={creds => this.props.signUserIn(creds)}
+                            loginMode={this.props.loginMode}
+                            setLoginMode={name => this.props.setLoginMode(name)}
+                            error={this.props.error}
                         />
                     </div>
                 )
@@ -90,7 +98,9 @@ const mapStateToProps = state => ({
     loadedUser: state.users.isLoaded,
     user: state.users.user,
     activeSong: state.controls.activeSong,
-    isPlaying: state.controls.isPlaying
+    isPlaying: state.controls.isPlaying,
+    error: state.users.error,
+    loginMode: state.loginPage.loginMode
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -109,6 +119,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
     playPressed: song => {
         dispatch(playPressed(song));
+    },
+    setLoginMode: name => {
+        dispatch(setLoginMode(name));
+        dispatch(setUserError(''));
     }
 });
 
