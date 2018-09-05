@@ -76,9 +76,9 @@ export const receiveCreateUser = user => ({
     }
 });
 
-export const failureCreateUser = message => ({
+export const failureCreateUser = error => ({
     type: userTypes.FAILURE_CREATE_USER,
-    message: message
+    message: error.message
 });
 
 export const requestLogin = () => ({
@@ -92,9 +92,9 @@ export const receiveLogin = user => ({
     }
 });
 
-export const failureLogin = message => ({
+export const failureLogin = error => ({
     type: userTypes.FAILURE_LOGIN,
-    message: message
+    message: error.message
 });
 
 export const requestLogout = () => ({
@@ -105,3 +105,7 @@ export const receiveLogout = () => ({
     type: userTypes.RECEIVE_LOGOUT
 });
 
+export const setUserError = message => ({
+    type: userTypes.SET_USER_ERROR,
+    message: message
+});

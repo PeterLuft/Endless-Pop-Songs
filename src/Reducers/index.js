@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import * as userTypes from '../Constants/userActionTypes';
 import * as songTypes from '../Constants/songActionTypes';
 import * as controlsTypes from '../Constants/controlsActionTypes';
+import * as loginPageTypes from '../Constants/loginActionTypes';
 
 
 const songs = (state = {
@@ -74,6 +75,20 @@ const controls = (state = {
 };
 
 
+const loginPage = (state = {
+    loginMode: 'main'
+}, action) => {
+    switch (action.type) {
+        case loginPageTypes.SET_LOGIN_MODE:
+            return {
+                ...state,
+                loginMode: action.mode
+            };
+        default:
+            return state
+    }
+};
+
 const users = (state = {
     isFetching: false,
     isLoaded: false,
@@ -123,7 +138,7 @@ const users = (state = {
                 ...state,
                 isFetching: false,
                 isLoaded: false,
-                errorMessage: action.message,
+                error: action.message,
                 isAuthenticated: false
             };
         case userTypes.REQUEST_LOGOUT:
@@ -139,14 +154,19 @@ const users = (state = {
                 isLoaded: false,
                 isAuthenticated: false,
                 user: null,
-                errorMessage: ''
+                error: ''
             };
+        case userTypes.SET_USER_ERROR:
+            return {
+                ...state,
+                error: action.message
+            }
         default:
             return state
 
     }
 };
 
-const Reducer = combineReducers({songs, controls, users});
+const Reducer = combineReducers({songs, controls, loginPage, users});
 
 export default Reducer;

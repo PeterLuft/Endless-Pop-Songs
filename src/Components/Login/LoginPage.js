@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import withStyles from '@material-ui/core/styles/withStyles';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
 
 
@@ -14,16 +15,17 @@ const styles = theme => ({
         layout: {
             width: 'auto',
             display: 'block',
-            marginLeft: theme.spacing.unit * 3,
+            marginLeft: theme.spacing.unit *3,
             marginRight: theme.spacing.unit * 3,
-            [theme.breakpoints.up(400 + theme.spacing.unit * 3)]: {
-                width: 400,
+            [theme.breakpoints.up(600 + theme.spacing.unit * 3)]: {
+                width: 600,
                 marginLeft: 'auto',
                 marginRight: 'auto'
             }
         },
         paper: {
             marginTop: theme.spacing.unit * 10,
+            marginBottom: theme.spacing.unit*10,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -32,6 +34,7 @@ const styles = theme => ({
         submit: {
             display: 'block',
             width: '100%',
+            height: '50px',
             marginTop: theme.spacing.unit * 2
         },
         backButton: {
@@ -46,38 +49,45 @@ class LoginPage extends Component {
     static propTypes = {
         createAccount: PropTypes.func,
         classes: PropTypes.object.isRequired,
-        signUserIn: PropTypes.func
+        signUserIn: PropTypes.func,
+        error: PropTypes.string,
+        loginMode: PropTypes.string,
+        setLoginMode: PropTypes.func
     };
 
     constructor(props) {
         super(props);
-        this.state = {
-            mode: 'main'
-        };
+
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(name) {
-        this.setState({
-            mode: name
-        });
+        this.props.setLoginMode(name);
     };
 
     render() {
         const {classes} = this.props;
         let content = '';
 
-        if (this.state.mode === 'signup') {
+        if (this.props.loginMode === 'signup') {
             content = (
                 <div>
-                    <Signup submitSignup={creds => this.props.createAccount(creds)} backPressed={() => this.handleChange('main')}/>
+                    <Signup
+                        submitSignup={creds => this.props.createAccount(creds)}
+                        backPressed={() => this.handleChange('main')}
+                        message={this.props.error}
+                    />
                 </div>
             );
         }
-        else if (this.state.mode === 'signin') {
+        else if (this.props.loginMode === 'signin') {
             content = (
                 <div>
-                    <Signin submitSignin={creds => this.props.signUserIn(creds)} backPressed={() => this.handleChange('main')}/>
+                    <Signin
+                        submitSignin={creds => this.props.signUserIn(creds)}
+                        backPressed={() => this.handleChange('main')}
+                        message={this.props.error}
+                    />
                 </div>
             );
         }
@@ -86,12 +96,14 @@ class LoginPage extends Component {
                 <div>
                     <Button
                         variant="raised"
+                        size="large"
                         className={classes.submit}
                         name="signup"
                         color="primary"
                         onClick={() => this.handleChange('signup')}
                     >Get started</Button>
                     <Button
+                        size="large"
                         variant="raised"
                         className={classes.submit}
                         name="signin"
@@ -106,6 +118,7 @@ class LoginPage extends Component {
             <div>
                 <CssBaseline/>
                 <main className={classes.layout}>
+                    <Typography variant="display4">Endless pop songs</Typography>
                     <Paper className={classes.paper}>
                         {content}
                     </Paper>
