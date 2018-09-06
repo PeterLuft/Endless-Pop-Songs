@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import './App.css';
 import LoginPage from '../Components/Login/LoginPage';
-import Signout from '../Components/Signout';
 import Timeline from '../Components/Timeline/Timeline';
 import PropTypes from 'prop-types';
-
 import {connect} from "react-redux";
 import {retrieveNewSong} from "../Actions/songs";
 import {createUser, logUserIn, logUserOut, setUserError} from '../Actions/user';
@@ -51,13 +48,12 @@ export class App extends Component {
             else {
                 return (
                     <div className="App">
-                        <h1>Endless Pop Songs</h1>
-                        <Signout logoutClicked={() => this.props.signUserOut()}/>
                         <Timeline
                             songs={this.props.currentSongs}
                             handlePlay={song => this.props.playPressed(song)}
                             activeSong={this.props.activeSong}
                             isPlaying={this.props.isPlaying}
+                            logoutClicked={() => this.props.signUserOut()}
                         />
                     </div>
                 );

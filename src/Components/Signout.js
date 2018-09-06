@@ -1,19 +1,38 @@
 import React, {Component} from 'react';
+import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = theme => ({
+    menuButton: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        marginTop: theme.spacing.unit*2,
+        border: '1px solid white'
+    }
+});
 
 class Signout extends Component {
+
+    static propTypes = {
+        logoutClicked: PropTypes.func.isRequired,
+        classes: PropTypes.object.isRequired
+    };
 
     handleClick = () => {
         this.props.logoutClicked();
     };
 
-
     render() {
+
+        const {classes} = this.props;
+
         return (
-            <button onClick={() => this.handleClick()}>
+            <Button size='large' className={classes.menuButton} variant="raised" color="primary" onClick={() => this.handleClick()}>
                 <strong>Log out</strong>
-            </button>
+            </Button>
         )
     }
 }
 
-export default Signout;
+export default withStyles(styles)(Signout);
