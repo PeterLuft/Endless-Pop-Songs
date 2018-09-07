@@ -7,6 +7,7 @@ import {retrieveNewSong} from "../Actions/songs";
 import {createUser, logUserIn, logUserOut, setUserError} from '../Actions/user';
 import {playPressed} from "../Actions/controls";
 import {setLoginMode} from "../Actions/loginPage";
+import MenuBar from '../Components/MenuBar/MenuBar';
 
 //use named export for unconnected component (for testing)
 export class App extends Component {
@@ -50,12 +51,12 @@ export class App extends Component {
             else {
                 return (
                     <div className="App">
+                        <MenuBar logoutClicked={() => this.props.signUserOut()}/>
                         <Timeline
                             songs={this.props.currentSongs}
                             handlePlay={song => this.props.playPressed(song)}
                             activeSong={this.props.activeSong}
                             isPlaying={this.props.isPlaying}
-                            logoutClicked={() => this.props.signUserOut()}
                         />
                     </div>
                 );

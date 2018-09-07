@@ -3,25 +3,11 @@ import SongItem from './SongItem'
 import PropTypes from 'prop-types';
 import AudioPlayer from './AudioPlayer';
 import withStyles from '@material-ui/core/styles/withStyles';
-import AppBar from '@material-ui/core/AppBar';
-import Signout from '../Signout';
-import ToolBar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
-    appBar: {
-        height: 100
-    },
     player: {},
     songs: {},
-    layout: {
-        marginRight: '10%',
-        marginLeft:  '10%'
-    },
-    signOut: {
-        marginLeft: '100px'
-    }
+
 });
 
 class Timeline extends Component {
@@ -73,27 +59,12 @@ class Timeline extends Component {
 
         return (
             <div>
-                <main className={classes.layout}>
-                <AppBar className={classes.appBar} position="static">
-                    <ToolBar >
-                        <Grid container spacing={24}>
-                            <Grid item xs={10}>
-                                <Typography variant='display3'>Endless Pop Songs</Typography>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <Signout className={classes.signOut} logoutClicked={() => this.props.logoutClicked()}/>
-                            </Grid>
-                        </Grid>
-                    </ToolBar>
-                </AppBar>
-
                 <div className={classes.player}>
                     {player}
                 </div>
                 <div className={classes.songs}>
                     {songs}
                 </div>
-                </main>
             </div>
         )
     }

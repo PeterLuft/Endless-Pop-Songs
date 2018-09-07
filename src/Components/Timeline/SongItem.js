@@ -9,7 +9,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Avatar from '@material-ui/core/Avatar';
 import ShareIcon from '@material-ui/icons/Share';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
@@ -18,12 +17,24 @@ const styles = theme => ({
     card: {
         padding: theme.spacing.unit,
         marginTop: theme.spacing.unit * 3,
+        marginLeft: theme.spacing.unit*3,
+        marginRight: theme.spacing.unit*3,
         marginBottom: theme.spacing.unit * 3,
-        border: '1px solid red'
+        width: '50%'
     },
-    content: {},
+    header: {
+        display: 'flex'
+    },
+    title: {
+        marginLeft: 10
+    },
     actions: {},
-    details: {}
+    details: {},
+    avatar: {
+        width: 60,
+        height: 60,
+        backgroundColor: theme.palette.primary.main
+    }
 
 });
 
@@ -48,33 +59,24 @@ class SongItem extends Component {
         }
     };
 
-    state = {
-        isExpanded: false
-    }
-
-
-    handleExpandClick = () => {
-        this.setState({
-            isExpanded: !this.state.isExpanded
-        });
-    };
-
-
     render() {
 
         const {classes} = this.props;
 
         return (
             <Card className={classes.card}>
-
-                <CardContent>
+                <CardContent className={classes.header}>
                     <Avatar className={classes.avatar}>P</Avatar>
-                    <Typography variant="headline">{this.props.song.title}</Typography>
+                    <Typography className={classes.title} variant="headline">{this.props.song.title}</Typography>
+
+                </CardContent>
+
+                <CardContent className={classes.details}>
                     <Typography variant="subheading">Tempo: {this.props.song.tempo}</Typography>
                     <Typography variant="subheading">Key: {this.props.song.key}</Typography>
                 </CardContent>
 
-                <CardActions>
+                <CardActions className={classes.actions}>
                     <IconButton onClick={() => this.props.handlePlay()}>
                         {this.props.isPlaying ? (
                             <PauseIcon/>
