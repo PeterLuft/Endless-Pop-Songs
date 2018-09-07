@@ -31,7 +31,8 @@ export class App extends Component {
         loginMode: PropTypes.string,
         setLoginMode: PropTypes.func,
         favoritePressed: PropTypes.func,
-        sharePressed: PropTypes.func
+        sharePressed: PropTypes.func,
+        uploadClicked: PropTypes.func
     };
 
     componentDidMount() {
@@ -51,7 +52,10 @@ export class App extends Component {
             else {
                 return (
                     <div className="App">
-                        <MenuBar logoutClicked={() => this.props.signUserOut()}/>
+                        <MenuBar
+                            logoutClicked={() => this.props.signUserOut()}
+                            uploadClicked={() => this.props.uploadClicked()}
+                        />
                         <Timeline
                             songs={this.props.currentSongs}
                             handlePlay={song => this.props.playPressed(song)}
@@ -71,7 +75,6 @@ export class App extends Component {
                 );
             }
             else {
-                console.log('rendering login');
                 return (
                     <div className="App">
                         <LoginPage
@@ -115,6 +118,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
     signUserOut: () => {
         dispatch(logUserOut());
+    },
+    uploadClicked: () => {
+        //todo: upload button logic
+        console.log('uploading');
     },
     playPressed: song => {
         dispatch(playPressed(song));
