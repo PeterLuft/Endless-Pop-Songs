@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
+    appBar: {
+        height: 100
+    },
     player: {},
     songs: {},
     layout: {
@@ -27,7 +30,9 @@ class Timeline extends Component {
         songs: PropTypes.array,
         isPlaying: PropTypes.bool,
         activeSong: PropTypes.object,
-        handlePlay: PropTypes.func
+        handlePlay: PropTypes.func,
+        handleFavorite: PropTypes.func,
+        handleShare: PropTypes.func
     };
 
     static defaultProps = {
@@ -45,9 +50,9 @@ class Timeline extends Component {
                     <SongItem
                         song={s}
                         isPlaying={this.props.isPlaying && this.props.activeSong.id === s.id}
-                        handlePlay={() => {
-                            this.props.handlePlay(s);
-                        }}
+                        handlePlay={() => this.props.handlePlay(s)}
+                        handleFavorite={() => this.props.handleFavorite(s)}
+                        handleShare={() => this.props.handleShare(s)}
                     />
                 </div>
             );
@@ -69,12 +74,11 @@ class Timeline extends Component {
         return (
             <div>
                 <main className={classes.layout}>
-                <AppBar position="static">
-                    <ToolBar>
+                <AppBar className={classes.appBar} position="static">
+                    <ToolBar >
                         <Grid container spacing={24}>
                             <Grid item xs={10}>
                                 <Typography variant='display3'>Endless Pop Songs</Typography>
-
                             </Grid>
                             <Grid item xs={2}>
                                 <Signout className={classes.signOut} logoutClicked={() => this.props.logoutClicked()}/>
@@ -91,10 +95,7 @@ class Timeline extends Component {
                 </div>
                 </main>
             </div>
-
         )
-
-
     }
 }
 

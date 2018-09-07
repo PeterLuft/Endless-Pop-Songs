@@ -7,7 +7,8 @@ const styles = theme => ({
     menuButton: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        marginTop: theme.spacing.unit*2,
+        marginTop: theme.spacing.unit*3,
+        marginBottom: theme.spacing.unit*3,
         border: '1px solid white'
     }
 });

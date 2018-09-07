@@ -28,7 +28,9 @@ export class App extends Component {
         activeId: PropTypes.number,
         error: PropTypes.string,
         loginMode: PropTypes.string,
-        setLoginMode: PropTypes.func
+        setLoginMode: PropTypes.func,
+        favoritePressed: PropTypes.func,
+        sharePressed: PropTypes.func
     };
 
     componentDidMount() {
@@ -119,7 +121,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     setLoginMode: name => {
         dispatch(setLoginMode(name));
         dispatch(setUserError(''));
+    },
+    favoritePressed: song => {
+        //todo: implement redux favorite actions
+        console.log(song);
+    },
+    sharePressed: song => {
+        //todo: implement redux share actions
+        console.log(song);
     }
+
+
 });
 
 
