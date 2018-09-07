@@ -14,6 +14,7 @@ const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
 const styles = theme => ({
     paper: {
+        padding: theme.spacing.unit,
         marginBottom: theme.spacing.unit * 3,
         marginTop: theme.spacing.unit * 3
 
@@ -38,24 +39,15 @@ class AudioPlayer extends Component {
         isPlaying: false
     };
 
-    state = {
-        localSong: {}
-    };
-
     componentDidMount() {
         this.loadSong(this.props.song);
-        this.setState({
-            localSong: this.props.song
-        });
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         //if new song has been selected, call the expensive load function again
-        if (this.state.localSong !== this.props.song) {
+
+        if (prevProps.song !== this.props.song) {
             this.loadSong(this.props.song);
-            this.setState({
-                localSong: this.props.song
-            });
         }
         if (this.props.isPlaying) {
             Tone.Transport.start();
@@ -63,7 +55,6 @@ class AudioPlayer extends Component {
         else {
             Tone.Transport.stop();
         }
-
     }
 
     parseChord = (input, scale) => {
@@ -105,9 +96,6 @@ class AudioPlayer extends Component {
                 chord = [];
 
         }
-
-
-        //for now just returns placeholder chord
         return chord;
     };
 
@@ -125,8 +113,8 @@ class AudioPlayer extends Component {
     };
 
     loadSong = songData => {
-        console.log('loading data for song');
 
+        console.log("loading new song with id " + songData.id);
         this.synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
         let scale = this.shiftKey(notes.slice(), notes.indexOf(this.props.song.key));
 
