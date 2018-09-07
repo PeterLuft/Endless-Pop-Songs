@@ -12,19 +12,19 @@ const styles = theme => ({
     }
 });
 
-const Signout = (props) => {
+const UploadButton = (props) => {
 
-    const {classes, logoutClicked} = props;
+    const {classes, uploadClicked} = props;
 
     return (
         <Button size='large'
                 className={classes.menuButton}
                 variant="raised" color="primary"
-                onClick={() => logoutClicked()}
-                >
-            <strong>Log out</strong>
+                onClick={() => uploadClicked()}
+        >
+            <strong>Upload</strong>
         </Button>
     )
 
 };
-export default withStyles(styles)(Signout);
+export default withStyles(styles)(UploadButton);
