@@ -13,7 +13,8 @@ const styles = theme => ({
     },
     layout: {
         display: 'flex',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        marginTop: '120px'
     }
 
 });
