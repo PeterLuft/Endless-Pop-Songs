@@ -5,8 +5,16 @@ import AudioPlayer from './AudioPlayer';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
-    player: {},
-    songs: {},
+    player: {
+        width: '40%'
+    },
+    songs: {
+        width: '60%'
+    },
+    layout: {
+        display: 'flex',
+        justifyContent: 'space-around'
+    }
 
 });
 
@@ -22,14 +30,13 @@ class Timeline extends Component {
     };
 
     static defaultProps = {
-        songs: []
+        songs: [],
+        activeSong: {}
     };
 
     render() {
 
         const {classes} = this.props;
-        let player;
-
         const songs = this.props.songs.map(s => {
             return (
                 <div key={s.id.toString()}>
@@ -44,26 +51,22 @@ class Timeline extends Component {
             );
         });
 
-        if (!isNaN(parseFloat(this.props.activeSong.id))) {
-            player = (
-                <AudioPlayer
-                    song={this.props.activeSong}
-                    isPlaying={this.props.isPlaying}
-                    handlePlay={() => this.props.handlePlay(this.props.activeSong)}
-                />
-            )
-        }
-        else {
-            player = ''
-        }
+        const player = (
+            <AudioPlayer
+                song={this.props.activeSong}
+                isPlaying={this.props.isPlaying}
+                handlePlay={() => this.props.handlePlay(this.props.activeSong)}
+            />
+        );
 
         return (
-            <div>
-                <div className={classes.player}>
-                    {player}
-                </div>
+            <div className={classes.layout}>
+
                 <div className={classes.songs}>
                     {songs}
+                </div>
+                <div className={classes.player}>
+                    {player}
                 </div>
             </div>
         )

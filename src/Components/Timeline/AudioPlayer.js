@@ -15,8 +15,7 @@ const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 const styles = theme => ({
     paper: {
         padding: theme.spacing.unit,
-        marginBottom: theme.spacing.unit * 3,
-        marginTop: theme.spacing.unit * 3
+        margin: theme.spacing.unit*3
 
     }
 });
@@ -40,7 +39,12 @@ class AudioPlayer extends Component {
     };
 
     componentDidMount() {
-        this.loadSong(this.props.song);
+        if (isNaN(parseFloat(this.props.song.id))) {
+            console.log('no song');
+        }
+        else{
+            this.loadSong(this.props.song);
+        }
     };
 
     componentDidUpdate(prevProps) {
