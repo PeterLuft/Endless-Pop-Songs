@@ -11,16 +11,13 @@ import ShareIcon from '@material-ui/icons/Share';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import Divider from '@material-ui/core/Divider';
 
 
 const styles = theme => ({
     card: {
         padding: theme.spacing.unit,
-        marginTop: theme.spacing.unit * 3,
-        marginLeft: theme.spacing.unit*3,
-        marginRight: theme.spacing.unit*3,
-        marginBottom: theme.spacing.unit * 3,
-        width: '50%'
+        margin: theme.spacing.unit*3
     },
     header: {
         display: 'flex'
@@ -59,6 +56,10 @@ class SongItem extends Component {
         }
     };
 
+    generateLetter = () => {
+        return String.fromCharCode(Math.floor(Math.random() *26) + 65)
+    };
+
     render() {
 
         const {classes} = this.props;
@@ -66,7 +67,9 @@ class SongItem extends Component {
         return (
             <Card className={classes.card}>
                 <CardContent className={classes.header}>
-                    <Avatar className={classes.avatar}>P</Avatar>
+                    <Avatar className={classes.avatar}>
+                        {this.generateLetter()}
+                        </Avatar>
                     <Typography className={classes.title} variant="headline">{this.props.song.title}</Typography>
 
                 </CardContent>
@@ -75,6 +78,8 @@ class SongItem extends Component {
                     <Typography variant="subheading">Tempo: {this.props.song.tempo}</Typography>
                     <Typography variant="subheading">Key: {this.props.song.key}</Typography>
                 </CardContent>
+
+                <Divider/>
 
                 <CardActions className={classes.actions}>
                     <IconButton onClick={() => this.props.handlePlay()}>
