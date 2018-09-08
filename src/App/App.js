@@ -7,7 +7,7 @@ import {retrieveNewSong} from "../Actions/songs";
 import {createUser, logUserIn, logUserOut, setUserError} from '../Actions/user';
 import {playPressed} from "../Actions/controls";
 import {setLoginMode} from "../Actions/loginPage";
-import MenuBar from '../Components/MenuBar/MenuBar';
+import NavBar from '../Components/NavBar/NavBar';
 
 //use named export for unconnected component (for testing)
 export class App extends Component {
@@ -52,7 +52,7 @@ export class App extends Component {
             else {
                 return (
                     <div className="App">
-                        <MenuBar
+                        <NavBar
                             logoutClicked={() => this.props.signUserOut()}
                             uploadClicked={() => this.props.uploadClicked()}
                         />

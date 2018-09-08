@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Signout from './Signout';
 import UploadButton from './UploadButton';
+import NavDropdownMenu from './NavDropdownMenu';
 import ToolBar from '@material-ui/core/Toolbar';
-import Grid from '@material-ui/core/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
 import logo from '../../Assets/logo.png';
 
@@ -18,16 +18,15 @@ const styles = theme => ({
         flexGrow: 1,
         marginBottom: 10
     },
-    menuItem: {
-    }
+    menuItem: {}
 });
 
-const MenuBar = (props) => {
+const NavBar = (props) => {
 
     const {classes, uploadClicked, logoutClicked} = props;
 
     return (
-        <AppBar position="static">
+        <AppBar position="fixed">
             <ToolBar>
                 <div className={classes.appBar}>
                     <div className={classes.logo}>
@@ -38,8 +37,9 @@ const MenuBar = (props) => {
                             uploadClicked={() => uploadClicked()}
                         />
                     </div>
+
                     <div className={classes.menuItem}>
-                        <Signout
+                        <NavDropdownMenu
                             logoutClicked={() => logoutClicked()}
                         />
                     </div>
@@ -48,4 +48,4 @@ const MenuBar = (props) => {
         </AppBar>
     );
 };
-export default withStyles(styles)(MenuBar);
+export default withStyles(styles)(NavBar);
