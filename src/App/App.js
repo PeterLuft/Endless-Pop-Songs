@@ -6,7 +6,6 @@ import {connect} from "react-redux";
 import {retrieveNewSong} from "../Actions/songs";
 import {createUser, logUserIn, logUserOut, setUserError} from '../Actions/user';
 import {playPressed} from "../Actions/controls";
-import {setLoginMode} from "../Actions/loginPage";
 import NavBar from '../Components/NavBar/NavBar';
 
 //use named export for unconnected component (for testing)
@@ -28,8 +27,6 @@ export class App extends Component {
         isPlaying: PropTypes.bool,
         activeId: PropTypes.number,
         error: PropTypes.string,
-        loginMode: PropTypes.string,
-        setLoginMode: PropTypes.func,
         favoritePressed: PropTypes.func,
         sharePressed: PropTypes.func,
         uploadClicked: PropTypes.func
@@ -102,7 +99,6 @@ const mapStateToProps = state => ({
     activeSong: state.controls.activeSong,
     isPlaying: state.controls.isPlaying,
     error: state.users.error,
-    loginMode: state.loginPage.loginMode
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -125,10 +121,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     },
     playPressed: song => {
         dispatch(playPressed(song));
-    },
-    setLoginMode: name => {
-        dispatch(setLoginMode(name));
-        dispatch(setUserError(''));
     },
     favoritePressed: song => {
         //todo: implement redux favorite actions

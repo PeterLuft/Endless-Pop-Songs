@@ -9,30 +9,13 @@ import FormControl from '@material-ui/core/FormControl';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
 import BackButton from '@material-ui/icons/ArrowBack';
+import Card from '@material-ui/core/Card';
 
 
 const styles = theme => ({
-    layout: {
-        width: 'auto',
-        display: 'block',
-        margin: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto'
-        }
-    },
-    paper: {
-        marginTop: theme.spacing.unit * 8,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-    },
-    avatar: {
-        margin: theme.spacing.unit,
-        backgroundColor: theme.palette.secondary.main
+    backButton: {
+        marginLeft: '0px',
+        marginRight: 'auto'
     },
     form: {
         width: '100%',
@@ -42,18 +25,18 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
         height: '50px'
     },
-    errorMessage: {
-
-    }
+    errorMessage: {},
+    card: {
+        marginTop: theme.spacing.unit * 10,
+        marginBottom: theme.spacing.unit * 10,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    },
 });
 
 class Signup extends Component {
-
-    static propTypes = {
-        classes: PropTypes.object.isRequired,
-        submitSignup: PropTypes.func.isRequired,
-        message: PropTypes.string
-    };
 
     constructor(props) {
         super(props);
@@ -67,7 +50,6 @@ class Signup extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-
     }
 
     handleSubmit = event => {
@@ -104,7 +86,7 @@ class Signup extends Component {
         const {classes} = this.props;
         let errorMessage;
 
-        if(this.props.message.length > 0 || this.state.message.length > 0){
+        if (this.props.message.length > 0 || this.state.message.length > 0) {
             errorMessage = (
                 <div className={classes.errorMessage}>
                     <Typography color="error">{this.props.message}</Typography>
@@ -112,69 +94,76 @@ class Signup extends Component {
                 </div>
             )
         }
-        else{
+        else {
             errorMessage = '';
         }
 
         return (
             <div>
-                <CssBaseline/>
-                <IconButton
-                    variant="raised"
-                    className={classes.backButton}
-                    name="main"
-                    onClick={() => this.props.backPressed()}
-                >
-                    <BackButton/>
-                </IconButton>
-                {errorMessage}
-                <Typography variant="headline">Sign Up</Typography>
-                <form onSubmit={this.handleSubmit} className={classes.form}>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">Email:</InputLabel>
-                        <Input
-                            id="email"
-                            name="email"
-                            autoComplete="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                            autoFocus
-                        />
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password:</InputLabel>
-                        <Input
-                            type="password"
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="pwConf">Confirm Password:</InputLabel>
-                        <Input
-                            type="password"
-                            name="pwConf"
-                            value={this.state.pwConf}
-                            onChange={this.handleChange}
-                        />
-                    </FormControl>
-                    <Button
-                        type="submit"
-                        value="submit"
-                        fullWidth
+                <Card className={classes.card}>
+                    <CssBaseline/>
+                    <IconButton
                         variant="raised"
-                        color="primary"
-                        className={classes.submit}
+                        className={classes.backButton}
+                        name="main"
+                        onClick={() => this.props.backPressed()}
                     >
-                        Sign up
-                    </Button>
-                </form>
+                        <BackButton/>
+                    </IconButton>
+                    {errorMessage}
+                    <Typography variant="headline">Sign Up</Typography>
+                    <form onSubmit={this.handleSubmit} className={classes.form}>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="email">Email:</InputLabel>
+                            <Input
+                                id="email"
+                                name="email"
+                                autoComplete="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                                autoFocus
+                            />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Password:</InputLabel>
+                            <Input
+                                type="password"
+                                name="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="pwConf">Confirm Password:</InputLabel>
+                            <Input
+                                type="password"
+                                name="pwConf"
+                                value={this.state.pwConf}
+                                onChange={this.handleChange}
+                            />
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            value="submit"
+                            fullWidth
+                            variant="raised"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign up
+                        </Button>
+                    </form>
+                </Card>
             </div>
         );
     }
+}
 
-
+Signup.propTypes = {
+    classes: PropTypes.object.isRequired,
+    backPressed: PropTypes.func,
+    submitSignup: PropTypes.func,
+    message: PropTypes.string
 }
 
 export default withStyles(styles)(Signup);
